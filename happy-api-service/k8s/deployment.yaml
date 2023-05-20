@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-api-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-api-service
+  template:
+    metadata:
+      labels:
+        app: happy-api-service
+    spec:
+      containers:
+        - name: happy-api-service
+          image: <image_name>:<image_tag>
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_ADDR
+              value: ":55004"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "0.5"
+              memory: 256Mi
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: "74Mi"
+              cpu: "41m"
+            limits:
+              memory: "82Mi"
+              cpu: "361m"
