@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-user-service
+  labels:
+    app: happy-user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-user-service
+  template:
+    metadata:
+      labels:
+        app: happy-user-service
+    spec:
+      containers:
+        - name: happy-user-service
+          image: <image_name>:<image_tag>
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              value: mysql
+            - name: DB_SOURCE
+              value: "root:happyMySQL@tcp(happy-mysql:3306)/happy_user_db"
+            - name: SERVER_ADDR
+              value: ":55000"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "0.5"
+              memory: 256Mi
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: "74Mi"
+              cpu: "41m"
+            limits:
+              memory: "82Mi"
+              cpu: "361m"

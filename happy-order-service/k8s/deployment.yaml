@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-order-service
+  labels:
+    app: happy-order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-order-service
+  template:
+    metadata:
+      labels:
+        app: happy-order-service
+    spec:
+      containers:
+        - name: happy-order-service
+          image: <image_name>:<image_tag>
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              value: mysql
+            - name: DB_SOURCE
+              value: "root:happyMySQL@tcp(happy-mysql:3306)/happy_order_db?parseTime=true"
+            - name: SERVER_ADDR
+              value: ":55000"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "0.5"
+              memory: 256Mi
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: "74Mi"
+              cpu: "41m"
+            limits:
+              memory: "82Mi"
+              cpu: "361m"

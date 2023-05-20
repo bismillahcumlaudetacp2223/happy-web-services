@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-admin-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-admin-service
+  template:
+    metadata:
+      labels:
+        app: happy-admin-service
+    spec:
+      containers:
+        - name : happy-admin-service
+          image: pandudw/api-svc:latest
+          ports:
+            - containerPort: 8080 
+          env:
+            - name  : ADMIN_UNAME
+              value : "admin"
+            - name  : ADMIN_PASS
+              value : "12345678"
+            - name  : HAPPY_PRODUCT_SERVICE_URL
+              value : http://happy-user-svc:55000
+            - name  : HAPPY_ORDER_SERVICE_URL
+              value : http://happy-order-svc:55000  
+            - name  : HAPPY_USER_SERVICE_URL
+              value : http://happy-user-svc:55000
+            - name  : HAPPY_FEEDBACK_SERVICE_URL
+              value : http://happy-feedback-svc:55000
+          resources:
+            requests:
+              memory: "105Mi"
+              cpu: "250m"
+            limits:
+              memory: "105Mi"
+              cpu: "500m"
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: "74Mi"
+              cpu: "41m"
+            limits:
+              memory: "82Mi"
+              cpu: "361m"
+
+
