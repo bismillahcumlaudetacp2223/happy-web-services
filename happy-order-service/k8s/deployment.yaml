@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-order-svc
+  labels:
+    app: happy-order-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-order-svc
+  template:
+    metadata:
+      labels:
+        app: happy-order-svc
+    spec:
+      containers:
+        - name: happy-order-svc
+          image: syahdaromstudenttelu/happy-order-svc
+          ports:
+            - containerPort: ''
+          env:
+            - name: APP_ENV
+              value: 'prod'
+            - name: DB_DRIVER
+              value: ''
+            - name: DB_SOURCE
+              value: 'username:password@protocol(address)/dbname?param=value'
+            - name: SERVER_ADDR
+              value: ''
+          resources:
+            limits:
+              cpu: 100m
+              memory: 200Mi
+            requests:
+              cpu: 75m
+              memory: 150Mi
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ['/bin/grpc_health_probe', '-addr=:9555']
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ['/bin/grpc_health_probe', '-addr=:9555']
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: '74Mi'
+              cpu: '41m'
+            limits:
+              memory: '82Mi'
+              cpu: '361m'

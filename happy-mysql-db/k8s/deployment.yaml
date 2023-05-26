@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: happy-mysql-db
+  labels:
+    app: happy-mysql-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: happy-mysql-db
+  template:
+    metadata:
+      labels:
+        app: happy-mysql-db
+    spec:
+      containers:
+        - name: happy-mysql-db
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: ''
+          resources:
+            limits:
+              cpu: 150m
+              memory: 200Mi
+            requests:
+              cpu: 75m
+              memory: 150Mi
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ['/bin/grpc_health_probe', '-addr=:9555']
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ['/bin/grpc_health_probe', '-addr=:9555']
+        - name: istio-proxy
+          image: auto
+          resources:
+            requests:
+              memory: '74Mi'
+              cpu: '41m'
+            limits:
+              memory: '82Mi'
+              cpu: '361m'
