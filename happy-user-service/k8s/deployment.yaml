@@ -18,39 +18,20 @@ spec:
         - name: happy-user-svc
           image: syahdaromstudenttelu/happy-user-svc
           ports:
-            - containerPort: ''
+            - containerPort: 55000
           env:
             - name: APP_ENV
               value: 'prod'
             - name: DB_DRIVER
-              value: ''
+              value: 'mysql'
             - name: DB_SOURCE
-              value: 'username:password@protocol(address)/dbname?param=value'
+              value: 'root:DdSmIMLTRZ@tcp(mysql.monitoring.svc.cluster.local:3306)/happy_mysql_db?parseTime=true'
             - name: SERVER_ADDR
-              value: ''
+              value: ':55000'
           resources:
             limits:
-              cpu: 150m
-              memory: 200Mi
+              cpu: 50m
+              memory: 75Mi
             requests:
-              cpu: 75m
-              memory: 150Mi
-          readinessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-          livenessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-        - name: istio-proxy
-          image: auto
-          resources:
-            requests:
-              memory: '74Mi'
-              cpu: '41m'
-            limits:
-              memory: '82Mi'
-              cpu: '361m'
+              cpu: 20m
+              memory: 25Mi

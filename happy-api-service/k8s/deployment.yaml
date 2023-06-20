@@ -16,47 +16,28 @@ spec:
         - name: happy-api-svc
           image: syahdaromstudenttelu/happy-api-svc
           ports:
-            - containerPort: ''
+            - containerPort: 55000
           env:
             - name: APP_ENV
               value: 'prod'
             - name: HAPPY_USER_SERVICE_URL
-              value: 'http://happy-user-svc:'
+              value: 'http://happy-user-svc:55000'
             - name: HAPPY_PRODUCT_SERVICE_URL
-              value: 'http://happy-product-svc:'
+              value: 'http://happy-product-svc:55000'
             - name: HAPPY_ORDER_SERVICE_URL
-              value: 'http://happy-order-svc:'
+              value: 'http://happy-order-svc:55000'
             - name: HAPPY_FEEDBACK_SERVICE_URL
-              value: 'http://happy-feedback-svc:'
+              value: 'http://happy-feedback-svc:55000'
             - name: JWT_SECRET_KEY
-              value: ''
+              value: 'secret_api'
             - name: ALLOW_ORIGINS
-              value: 'https://'
+              value: 'http://0.0.0.0'
             - name: SERVER_ADDR
-              value: ':'
+              value: ':55000'
           resources:
             limits:
-              cpu: 100m
-              memory: 200Mi
+              cpu: 50m
+              memory: 75Mi
             requests:
-              cpu: 75m
-              memory: 100Mi
-          readinessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-          livenessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-        - name: istio-proxy
-          image: auto
-          resources:
-            requests:
-              memory: '74Mi'
-              cpu: '41m'
-            limits:
-              memory: '82Mi'
-              cpu: '361m'
+              cpu: 20m
+              memory: 25Mi

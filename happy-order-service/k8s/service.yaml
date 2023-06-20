@@ -7,6 +7,6 @@ spec:
     app: happy-order-svc
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: ''
+      port: 55000
+      targetPort: 55000
   type: ClusterIP

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: happy-user-svc
+  name: happy-admin-svc
   labels:
-    app: happy-user-svc
+    app: happy-admin-svc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: happy-user-svc
+      app: happy-admin-svc
   template:
     metadata:
       labels:
-        app: happy-user-svc
+        app: happy-admin-svc
     spec:
       containers:
-        - name: happy-user-svc
+        - name: happy-admin-svc
           image: syahdaromstudenttelu/happy-admin-svc
           ports:
             - containerPort: 55000
@@ -35,32 +35,14 @@ spec:
             - name: HAPPY_FEEDBACK_SERVICE_URL
               value: 'http://happy-feedback-svc:55000'
             - name: ALLOW_ORIGINS
-              value: 'https://'
+              value: 'http://0.0.0.0'
             - name: SERVER_ADDR
-              value: ':'
+              value: ':55000'
           resources:
             limits:
-              cpu: 150m
-              memory: 200Mi
+              cpu: 50m
+              memory: 75Mi
             requests:
-              cpu: 75m
-              memory: 150Mi
-          readinessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-          livenessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            exec:
-              command: ['/bin/grpc_health_probe', '-addr=:9555']
-        - name: istio-proxy
-          image: auto
-          resources:
-            requests:
-              memory: '74Mi'
-              cpu: '41m'
-            limits:
-              memory: '82Mi'
-              cpu: '361m'
+              cpu: 20m
+              memory: 25Mi
+

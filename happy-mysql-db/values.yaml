@@ -1,0 +1,43 @@
+# values.yaml
+
+## MySQL configuration
+mysql:
+  image:
+    repository: mysql
+    tag: 8.0
+    pullPolicy: IfNotPresent
+
+  # rootPassword: mysecretpassword
+
+  ## Specify a database to create
+  ## Default is to create an empty database
+  database: happy-mysql-db
+
+  ## Specify user and its password to create
+  ## Default is to create an empty user
+  ## This user will be granted superuser privileges
+  ##
+  # mysqlUser: myuser
+  # mysqlPassword: mypassword
+
+  ## Persistence configuration
+  persistence:
+    enabled: true
+    storageClass: standard
+    accessMode: ReadWriteOnce
+    size: 8Gi
+
+  ## Service configuration
+  service:
+    type: ClusterIP
+    port: 3306
+
+  ## Additional custom configuration options
+  ## Example:
+  ##
+  ## customConfig: |
+  ##   [mysqld]
+  ##   key_buffer_size = 256M
+  ##   max_allowed_packet = 64M
+
+
