@@ -12,12 +12,12 @@ This guide explains the steps to deploy the "Happy" application to a Kubernetes 
 ### Deployment Steps
 1. Clone the repository
 ```bash
-   git clone <repository-url>
+git clone <repository-url>
 ```
 
 2. Navigate to the application's directory
 ```bash
-   cd Happy-Web-Service
+cd Happy-Web-Service
 ```
 
 3. Update the deployment and service configurations as needed in the kustomization.yaml file located in the application's directory.
